@@ -10,6 +10,13 @@ jobs:
       - name: Standard Checkout
         uses: actions/checkout@v3
 
+      - name: Get short commit sha
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: Check outputs
+        run: echo ${{ steps.vars.outputs.sha_short }}
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -29,7 +36,8 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.10.0
         with:
+          artifacts: "*.jar"
           draft: false
           prerelease: false
-          tag: ${{ steps.getPomVersion.outputs.version }}-${{ github.sha }}
+          tag: ${{ steps.getPomVersion.outputs.version }}-${{ steps.vars.outputs.sha_short }}
           body: ${{ github.event.head_commit.message }}
