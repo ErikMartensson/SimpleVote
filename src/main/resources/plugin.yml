@@ -1,0 +1,8 @@
+name: SimpleVote
+version: 1.0.0
+main: io.github.erikmartensson.simplevote.SimpleVote
+api-version: 1.19
+commands:
+  vote:
+    description: Vote
+    usage: /<command> <day/night>
