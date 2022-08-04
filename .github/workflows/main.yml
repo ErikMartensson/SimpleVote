@@ -1,0 +1,23 @@
+name: My project build  
+on:   
+    push:
+    branches: 
+        [ main ]
+
+jobs:
+   build:
+     runs-on: ubuntu-latest
+     steps:
+
+     - name: Set up JDK 17
+       uses: actions/setup-java@v2
+       with:
+         java-version: '17'
+         distribution: 'adopt'
+         server-id: github
+         settings-path: ${{ github.workspace }}
+
+     - name: Publish to GitHub Packages Apache Maven
+       run: mvn deploy
+       env:
+         GITHUB_TOKEN: ${{ github.token }}
